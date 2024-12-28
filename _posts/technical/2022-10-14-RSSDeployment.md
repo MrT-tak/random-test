@@ -1,6 +1,8 @@
 ---
 layout: post
 title: 'New RSS feature'
+redirect_from:
+- /2022/10/14/RSSDeployment/
 ---
 
 ##### We will be posting update, blogs and more!
