@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- favicon stuff -->
-    <link rel=”icon” href=“/favicon.ico”>
+    <link rel="icon" href=“/favicon.ico">
     <link rel="icon" sizes="192x192" href="/favicon.ico">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/favicon.ico" type="image/x-icon" />
@@ -314,7 +314,6 @@
 
         footer,
         footer div {
-            background-color: gray;
             color: rgb(57, 57, 57);
             border-radius: 12px 12px 0px 0px;
         }
@@ -436,8 +435,8 @@
         <h2 class="text-center">That number haunts me!</h2>
         Welcome back. Your digital nightmare is here.
         <br /><br />
-        You are currently on <span id="currPageURL"></span>. <br/>
-<br />
+        You are currently on <span id="currPageURL"></span>. <br />
+        <br />
         <a id="return" class="btn text-link bggreen text-white link-underline-primary">Return to your previous page.</a>
 
         <script>
@@ -445,12 +444,18 @@
             let currPageURL = document.location.href;
 
             currPageURLSpan.innerText = currPageURL;
-        </script>
-        <script>
+
+
             let returnPrevAnchor = document.getElementById("return")
             let previousPage = document.referrer;
 
             returnPrevAnchor.href = previousPage;
+
+
+            if (previousPage == "") {
+                returnPrevAnchor.innerText = "Return to main page."
+                returnPrevAnchor.href = "/"
+            }
         </script>
     </main>
 

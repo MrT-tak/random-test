@@ -1,0 +1,35 @@
+# # filepath: _plugins/translate_hook.rb
+# require 'jekyll'
+# require 'translate'
+
+# # Configure the Translate gem to use Google Translate's free tier
+# Translate.configure do |config|
+#   config.api_key = 'YOUR_GOOGLE_TRANSLATE_API_KEY' # Optional, for Google Translate API
+# end
+
+# Jekyll::Hooks.register :posts, :post_write do |post|
+#   # Define the languages you want to translate to
+#   target_languages = ["es", "fr"]
+
+#   # Define the source language
+#   source_language = "en"
+
+#   # Get the post content and path
+#   content = post.content
+#   path = post.path
+
+#   # Check if the post is in the source language directory
+#   if path.include?("/#{source_language}/")
+#     target_languages.each do |lang|
+#       target_dir = path.sub("/#{source_language}/", "/#{lang}/")
+#       target_path = target_dir.sub(/\.md$/, ".#{lang}.md")
+
+#       # Translate the content
+#       translated_content = Translate.t(content, from: source_language, to: lang)
+
+#       # Write the translated content to the target path
+#       FileUtils.mkdir_p(File.dirname(target_path))
+#       File.write(target_path, translated_content)
+#     end
+#   end
+# end

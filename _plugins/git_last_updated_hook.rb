@@ -82,10 +82,11 @@ module Jekyll
         def user_data_by_email(email)
             email = email.gsub("'", "")
 
-            # File.open('user-emailRequest.txt', 'w') do |file|
-            #     # Write content to the file
-            #     file.puts "https://api.github.com/search/commits?q=author-email:#{email}"
-            # end
+
+            File.open('user-emailRequest.txt', 'w') do |file|
+                # Write content to the file
+                file.puts "https://api.github.com/search/commits?q=author-email:#{email}"
+            end
 
             uri = URI("https://api.github.com/search/commits?q=author-email:#{email}")
             request = Net::HTTP::Get.new(uri)
@@ -95,11 +96,11 @@ module Jekyll
                 http.request(request)
             end
 
-            ## Open a file in write mode
-            #File.open('user-data.json', 'w') do |file|
-            #    # Write content to the file
-            #    file.puts response.body
-            #end
+            # Open a file in write mode
+            File.open('user-data.json', 'w') do |file|
+                # Write content to the file
+                file.puts response.body
+            end
 
             if response.is_a?(Net::HTTPSuccess)
                 commits = JSON.parse(response.body)

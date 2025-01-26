@@ -1,0 +1,15 @@
+plugins:
+  - jekyll-redirect-from
+
+whitelist:
+  - jekyll-redirect-from
+
+logging:
+  level: warn
+
+# 
+multilingual:
+  enabled: true
+  default_lang: en
+  langs: [en, jp]
+  lang_dir: :lang

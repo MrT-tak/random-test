@@ -5,3 +5,10 @@ gem 'rspec'
 gem "jekyll", "~> 4.3"
 
 gem "wdm", "~> 0.2.0"
+gem 'jekyll-redirect-from'
+
+# Translation: translation folder
+#gem 'octopress-multilingual'
+
+# Translation: auto-translation
+#gem 'translate'

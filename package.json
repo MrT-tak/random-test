@@ -1,0 +1,19 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "bundle exec jekyll serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrT-tak/blog.git"
+  },
+  "author": "MrT730 <MrT-tak@outlook.com> (https://mrt-tak.github.io/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrT-tak/blog/issues"
+  },
+  "homepage": "https://github.com/MrT-tak/blog#readme",
+  "description": ""
+}
