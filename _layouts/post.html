@@ -1,36 +1,166 @@
 ---
-layout: default
+layout: notitleDefault
 ---
-
-<div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
+<div>
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">
+            {{ page.title | escape }}
+        </h1>
+        <div>
+            <span style="border-right: 1%;">
+                Last updated: {{ page.last_modified_at | date: "%Y-%m-%d %H:%M" }}
+            </span>
+        </div>
+        <div>
+            <span style="border-right: 1%;">
+                Date: {{ page.date | date: "%Y-%m-%d" }}
+            </span>
+            <span>
+                Author: {{ page.author_username }}
+                <img src="{{ page.author.avatar }}" alt="Author profile picture"
+                    style="width: 2.5%;height: 2.5%;border-radius: 50%;border: 1px black;">
+            </span>
+        </div>
+        <div>
+            <strong>Editors:</strong>
+            <ul>
+                {% for editor in page.editors %}
+                <li>
+                    {{ editor.username }}
+                    <img src="{{ editor.avatar }}" alt="Editor profile picture"
+                        style="width: 2.5%;height: 2.5%;border-radius: 50%;border: 1px black;">
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </header>
+    <div class="post-content e-content" itemprop="articleBody">
+        {{ content }}
+    </div>
 </div>
-<script src="https://giscus.app/client.js" data-repo="mrt-tak/mrt-tak.github.io" data-repo-id="R_kgDOGpG8dw"
-    data-category="comments" data-category-id="DIC_kwDOGpG8d84Cju5-" data-mapping="pathname" data-strict="0"
-    data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme"
-    data-lang="en" crossorigin="anonymous" data-loading="lazy" async>
-    </script>
-<div class="giscus"></div>
-<script defer>
-    function changeGiscusTheme() {
-        const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+<div>
+    <script src="https://giscus.app/client.js" data-repo="mrt-tak/mrt-tak.github.io" data-repo-id="R_kgDOGpG8dw"
+        data-category="comments" data-category-id="DIC_kwDOGpG8d84Cju5-" data-mapping="pathname" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom"
+        data-theme="preferred_color_scheme" data-lang="en" crossorigin="anonymous" data-loading="lazy" async>
+        </script>
+    <!-- comment section -->
+    <p>Let's chat! Any questions please post it here.</p>
+    <div class="giscus"></div>
+    <script>
+        function changeGiscusTheme() {
+            console.log("Start changing giscus theme..")
 
-        function sendMessage(message) {
-            const iframe = document.querySelector('iframe.giscus-frame');
-            if (!iframe) return;
-            iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+            let theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+
+            console.log("Target theme: " + theme)
+
+            function sendMessage(message) {
+                const iframe = document.querySelector('iframe.giscus-frame');
+                if (!iframe) console.warn("No giscus-iframe");
+                if (!iframe) return;
+                iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+            }
+
+            sendMessage({
+                setConfig: {
+                    theme: theme
+                }
+            });
         }
 
-        sendMessage({
-            setConfig: {
-                theme: theme
-            }
+        console.log("Registering waitForElm...")
+        function waitForElm(selector) {
+            return new Promise(resolve => {
+                if (document.querySelector(selector)) {
+                    return resolve(document.querySelector(selector));
+                }
+
+                const observer = new MutationObserver(mutations => {
+                    if (document.querySelector(selector)) {
+                        observer.disconnect();
+                        resolve(document.querySelector(selector));
+                    }
+                });
+
+                // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            });
+        }
+
+        console.log("Registering waitForElm promises...")
+        waitForElm('iframe.giscus-frame').then((elm) => {
+            console.log("iframe spawned.")
+            setTimeout(function () {
+                console.log("ping")
+                changeGiscusTheme();
+            }, 1000)
+            setTimeout(function () {
+                console.log("ping")
+                changeGiscusTheme();
+            }, 5000)
+            setTimeout(function () {
+                console.log("ping")
+                changeGiscusTheme();
+            }, 5000)
         });
-    }
+    </script>
+    <!--<script defer disabled>
+    // Function to handle style changes
+    const handleStyleChange = (mutationsList, observer) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                // Check if a style tag was added or removed
+                mutation.addedNodes.forEach(node => {
+                    if (node.tagName === 'STYLE') {
+                        console.log('Style tag added:', node.textContent);
+                        // Add your custom logic here to process the new style
+                    }
+                });
+                mutation.removedNodes.forEach(node => {
+                    if (node.tagName === 'STYLE') {
+                        console.log('Style tag removed:', node.textContent);
+                        // Add your custom logic here to handle the removed style
+                    }
+                });
+            } else if (mutation.type === 'attributes') {
+                // Check if the style attribute of an element has changed
+                if (mutation.attributeName === 'style') {
+                    console.log('Style attribute changed:', mutation.target.style.cssText);
+                    // Add your custom logic here to process the style change
+                }
+            }
+        }
+    };
 
-    changeGiscusTheme()
+    // Create a new MutationObserver instance
+    const observer = new MutationObserver(handleStyleChange);
 
-    document.addEventListener('DOMContentLoaded', function () {
-        changeGiscusTheme();
-    });
-</script>
+    // Select the iframe element by class
+    const iframe = document.querySelector(`iframe.giscus-frame`);
+    alert(iframe.innerHTML)
+
+    // Configure the observer to watch for style tag changes and attribute changes
+    const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] };
+
+    // Start observing the iframe
+    observer.observe(iframe, config);
+</script>-->
+    <script defer>
+        console.log("defer script running..")
+    </script>
+
+    <script>
+        const iframe = document.selector('iframe.giscus-frame');
+        iframe.contentWindow.document.body.style.backgroundColor = 'rgb(255,5,255)';
+        const cssLink = document.createElement("link");
+        cssLink.href = "styles.css";
+        cssLink.rel = "stylesheet";
+        cssLink.type = "text/css";
+
+        frames['frame1'].contentWindow.document.head.appendChild(cssLink);
+    </script>
+</div>
