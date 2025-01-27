@@ -62,7 +62,7 @@ module Jekyll
             uri = URI("https://api.github.com/search/commits?q=author-email:#{email}")
             request = Net::HTTP::Get.new(uri)
             request['Accept'] = 'application/vnd.github.cloak-preview+json'
- 
+
             response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
                 http.request(request)
             end
