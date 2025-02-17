@@ -32,6 +32,9 @@ jobs:
         uses: actions/configure-pages@v5
       - name: install ruby 
         uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3' # Not needed with a .ruby-version, .tool-versions or mise.toml
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
